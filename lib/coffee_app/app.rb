@@ -38,5 +38,32 @@ module CoffeeApp
     def find_drink(drink_name)
       prices.find { |drink| drink.drink_name == drink_name }
     end
+
+    def order_total(user)
+      orders
+        .select { |order| order.user == user }
+        .sum(&:amount)
+        .round(2)
+    end
+
+    def payment_total(user)
+      payments
+        .select { |payment| payment.user == user }
+        .sum(&:amount)
+        .round(2)
+    end
+
+    def result
+      users.map do |user|
+        order_total = order_total(user.name)
+        payment_total = payment_total(user.name)
+        {
+          user: user.name,
+          order_total: order_total,
+          payment_total: payment_total,
+          balance: order_total - payment_total,
+        }
+      end
+    end
   end
 end
