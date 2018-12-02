@@ -1,7 +1,7 @@
 # Espresso Application
 ### Coding Challenge
 
-A application that keeps track of coffee ordered, what the balance is for each user; what users have paid for already, and what is still owed.
+An application that keeps track of coffee ordered, what the balance is for each user, what users have paid for already, and what is still owed.
 
 Below you will find some information on how to setup and perform common tasks.
 
