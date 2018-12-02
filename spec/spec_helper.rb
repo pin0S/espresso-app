@@ -1,0 +1,1 @@
+require "coffee_app"

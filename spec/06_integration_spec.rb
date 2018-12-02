@@ -1,8 +1,8 @@
-require 'spec_helper'
-require 'coffee_app'
+require "spec_helper"
+require "coffee_app"
 
-RSpec.describe "integration" do
-  let(:prices_json) {
+describe "Integration" do
+  let(:prices_json) do
     <<-JSON
       [
         { "drink_name": "short espresso", "prices": { "small": 3.03 } },
@@ -13,9 +13,9 @@ RSpec.describe "integration" do
         { "drink_name": "supermochacrapucaramelcream", "prices": { "large": 5.00, "huge": 5.50, "mega": 6.00, "ultra": 7.00 } }
       ]
     JSON
-  }
+  end
 
-  let(:orders_json) {
+  let(:orders_json) do
     <<-JSON
       [
         { "user": "coach", "drink": "long black", "size": "medium" },
@@ -26,9 +26,9 @@ RSpec.describe "integration" do
         { "user": "zoey", "drink": "short espresso", "size": "small" }
       ]
     JSON
-  }
+  end
 
-  let(:payments_json) {
+  let(:payments_json) do
     <<-JSON
       [
         { "user": "coach", "amount": 2.50 },
@@ -37,9 +37,9 @@ RSpec.describe "integration" do
         { "user": "ellis", "amount": 0.65 }
       ]
     JSON
-  }
+  end
 
-  let(:expected_result_json) {
+  let(:expected_result_json) do
     <<-JSON
       [
         { "user": "coach",    "order_total": 8.00, "payment_total": 2.50, "balance": 5.50 },
@@ -48,16 +48,16 @@ RSpec.describe "integration" do
         { "user": "zoey",     "order_total": 6.53, "payment_total": 0.00, "balance": 6.53 }
       ]
     JSON
-  }
+  end
 
   describe CoffeeApp do
     subject(:result) do
       json_result = CoffeeApp.call(prices_json, orders_json, payments_json)
-      JSON.load(json_result)
+      JSON.parse(json_result)
     end
 
     it "outputs JSON in expected form" do
-      expect(result).to eq JSON.load(expected_result_json)
+      expect(result).to eq JSON.parse(expected_result_json)
     end
 
     it "has a bunch of users who have ordered coffee" do
@@ -88,5 +88,4 @@ RSpec.describe "integration" do
       expect(result[3]["balance"]).to eq 6.53 # zoey: 6.53
     end
   end
-
 end
